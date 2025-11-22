@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SkillHub – Student & Class Management System
 
-## Getting Started
+A full-stack **Next.js** application designed to manage students, classes, and course enrollments.  
+Built using **Next.js 15 (App Router)** and **MySQL** (via XAMPP).
 
-First, run the development server:
+---
+
+## 🚀 Prerequisites
+
+Before starting, ensure you have:
+
+- **Node.js (v18 or later)**
+- **XAMPP** (or any MySQL server)
+
+---
+
+## 🛠️ Database Setup (Required)
+
+### 1. Start XAMPP
+- Open the **XAMPP Control Panel**
+- Start **Apache** and **MySQL**
+
+### 2. Create the Database
+1. Visit `http://localhost/phpmyadmin`  
+2. Click **New**  
+3. Enter database name: **skillhub_db**  
+4. Click **Create**
+
+### 3. Create Tables
+Inside **skillhub_db → SQL**, run the following:
+
+```sql
+-- 1. Participants Table
+CREATE TABLE participants (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    nomor_telepon VARCHAR(50),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Classes Table
+CREATE TABLE classes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_kelas VARCHAR(255) NOT NULL,
+    deskripsi TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. Enrollments Table (Junction Table)
+CREATE TABLE enrollments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    peserta_id INT,
+    kelas_id INT,
+    tanggal_pendaftaran TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (peserta_id) REFERENCES participants(id) ON DELETE CASCADE,
+    FOREIGN KEY (kelas_id) REFERENCES classes(id) ON DELETE CASCADE
+);
+```
+
+## ⚙️ Configuration
+
+Create a **`.env.local`** file in the root directory of the project and add the following environment variables:
+
+```env
+DB_HOST=127.0.0.1
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=skillhub_db
+```
+
+## 📦 Installation & Running
+
+### 1. Install Dependencies
+Run the following command to install all required packages:
+
+```bash
+npm install
+```
+### 2. Start Development Server
+Run the following command to launch the Next.js development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Participant Management** – Add, edit, delete, and search student records  
+- **Class Management** – Create, edit, and manage classes  
+- **Enrollment System** – Many-to-many relationship between students and classes  
+- **Real-time Class Counts** – Displays the number of students enrolled in each class  
+- **Mock Data Generator** – Quickly populate the database with sample data for testing  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
