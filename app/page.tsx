@@ -89,53 +89,90 @@ export default function Home() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // ... (Keep Create/Update Handlers for Participants and Classes) ...
   const handleCreateParticipant = async (data: ParticipantFormData) => {
+    // VALIDATION: Check for empty fields
+    if (!data.nama?.trim() || !data.email?.trim() || !data.nomor_telepon?.trim()) {
+      showToast('Please fill in all participant fields.', 'error');
+      return;
+    }
+
     setIsLoading(true);
     const res = await ParticipantService.create(data);
     setIsLoading(false);
+    
     if (res.success) {
       showToast('Participant added!', 'success');
       setIsParticipantModalOpen(false);
       fetchParticipants();
-    } else showToast(res.error || 'Error', 'error');
+    } else {
+      showToast(res.error || 'Error adding participant', 'error');
+    }
   };
 
   const handleUpdateParticipant = async (data: ParticipantFormData) => {
     if (!editingParticipantId) return;
+
+    // VALIDATION: Check for empty fields
+    if (!data.nama?.trim() || !data.email?.trim() || !data.nomor_telepon?.trim()) {
+      showToast('Please fill in all participant fields.', 'error');
+      return;
+    }
+
     setIsLoading(true);
     const res = await ParticipantService.update(editingParticipantId, data);
     setIsLoading(false);
+
     if (res.success) {
       showToast('Participant updated!', 'success');
       setIsParticipantModalOpen(false);
       setEditingParticipantId(null);
       fetchParticipants();
-    } else showToast(res.error || 'Error', 'error');
+    } else {
+      showToast(res.error || 'Error updating participant', 'error');
+    }
   };
 
   const handleCreateClass = async (data: ClassFormData) => {
+    // 1. VALIDATION: Only check nama_kelas
+    if (!data.nama_kelas?.trim()) {
+      showToast('Class name is required.', 'error');
+      return;
+    }
+
     setIsLoading(true);
     const res = await ClassService.createKelas(data);
     setIsLoading(false);
+
     if (res.success) {
       showToast('Class created!', 'success');
       setIsClassModalOpen(false);
       fetchClasses();
-    } else showToast(res.error || 'Error', 'error');
+    } else {
+      showToast(res.error || 'Error creating class', 'error');
+    }
   };
 
   const handleUpdateClass = async (data: ClassFormData) => {
     if (!editingClassId) return;
+
+    // 1. VALIDATION: Only check nama_kelas
+    if (!data.nama_kelas?.trim()) {
+      showToast('Class name is required.', 'error');
+      return;
+    }
+
     setIsLoading(true);
     const res = await ClassService.updateKelas(editingClassId, data);
     setIsLoading(false);
+
     if (res.success) {
       showToast('Class updated!', 'success');
       setIsClassModalOpen(false);
       setEditingClassId(null);
       fetchClasses();
-    } else showToast(res.error || 'Error', 'error');
+    } else {
+      showToast(res.error || 'Error updating class', 'error');
+    }
   };
 
   const handleViewClassDetail = async (id: number) => {
