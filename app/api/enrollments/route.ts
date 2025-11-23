@@ -6,16 +6,23 @@ export async function POST(request: Request) {
   try {
     const { pesertaId, kelasIds } = await request.json();
     
+    // 1. FIX: Add Validation Logic
+    // This ensures we return 400 if the data is missing or invalid
+    if (!pesertaId || !kelasIds || !Array.isArray(kelasIds)) {
+       return NextResponse.json({ success: false, error: "Invalid data" }, { status: 400 });
+    }
+
     // Loop through all selected classes
     for (const kelasId of kelasIds) {
       // Check if already enrolled to avoid duplicates
       const [exists] = await pool.query(
-        'SELECT * FROM enrollments WHERE peserta_id = ? AND kelas_id = ?', 
+        'SELECT id FROM enrollments WHERE peserta_id = ? AND kelas_id = ?', 
         [pesertaId, kelasId]
       );
       
       // Only insert if not already enrolled
       if ((exists as any[]).length === 0) {
+        // We removed NOW() since your table schema likely relies on DEFAULT CURRENT_TIMESTAMP
         await pool.query(
           'INSERT INTO enrollments (peserta_id, kelas_id) VALUES (?, ?)',
           [pesertaId, kelasId]
