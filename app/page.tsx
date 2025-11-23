@@ -133,9 +133,9 @@ export default function Home() {
   };
 
   const handleCreateClass = async (data: ClassFormData) => {
-    // 1. VALIDATION: Only check nama_kelas
-    if (!data.nama_kelas?.trim()) {
-      showToast('Class name is required.', 'error');
+    // VALIDATION: Check nama_kelas AND pengajar
+    if (!data.nama_kelas?.trim() || !data.pengajar?.trim()) {
+      showToast('Class name and Instructor are required.', 'error');
       return;
     }
 
@@ -155,9 +155,9 @@ export default function Home() {
   const handleUpdateClass = async (data: ClassFormData) => {
     if (!editingClassId) return;
 
-    // 1. VALIDATION: Only check nama_kelas
-    if (!data.nama_kelas?.trim()) {
-      showToast('Class name is required.', 'error');
+    // VALIDATION: Check nama_kelas AND pengajar
+    if (!data.nama_kelas?.trim() || !data.pengajar?.trim()) {
+      showToast('Class name and Instructor are required.', 'error');
       return;
     }
 
@@ -340,10 +340,10 @@ export default function Home() {
           <h2 className="text-xl font-semibold text-slate-800">
             {activeTab === 'participants' ? 'Participant Management' : 'Class Management'}
           </h2>
-          <div className="hidden md:flex items-center text-sm text-slate-500 gap-2 bg-slate-100 px-3 py-1 rounded-full">
+          {/* <div className="hidden md:flex items-center text-sm text-slate-500 gap-2 bg-slate-100 px-3 py-1 rounded-full">
              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
              Backend Connected
-          </div>
+          </div> */}
         </header>
 
         <div className="flex-1 overflow-auto p-8">

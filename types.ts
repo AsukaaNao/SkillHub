@@ -12,8 +12,8 @@ export interface Kelas {
   id: number;
   nama_kelas: string;
   deskripsi?: string;
+  pengajar?: string;
   studentCount?: number;
-  // instruktur field removed
   createdAt: string;
 }
 
@@ -60,4 +60,6 @@ export interface ParticipantFormData {
 export interface ClassFormData {
   nama_kelas: string;
   deskripsi: string;
+  pengajar: string;
+
 }

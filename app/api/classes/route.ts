@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 
-// GET: Fetch all classes
 // GET: Fetch all classes WITH student count
 export async function GET() {
   try {
     // We use a LEFT JOIN and COUNT to calculate students per class
+    // 'c.*' will automatically include the new 'pengajar' column if it exists in DB
     const [rows] = await pool.query(`
       SELECT c.*, COUNT(e.id) as studentCount
       FROM classes c
@@ -24,11 +24,12 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { nama_kelas, deskripsi } = body;
+    // Extract 'pengajar' from body
+    const { nama_kelas, pengajar, deskripsi } = body;
     
     const [result] = await pool.query(
-      'INSERT INTO classes (nama_kelas, deskripsi) VALUES (?, ?)',
-      [nama_kelas, deskripsi]
+      'INSERT INTO classes (nama_kelas, pengajar, deskripsi) VALUES (?, ?, ?)',
+      [nama_kelas, pengajar, deskripsi]
     );
     
     const newId = (result as any).insertId;

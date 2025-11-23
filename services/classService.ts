@@ -37,6 +37,7 @@ export const ClassService = {
   },
 
   // CREATE: Send POST request
+  // The 'data' object now includes 'pengajar' based on your types
   createKelas: async (data: ClassFormData): Promise<ApiResponse<Kelas>> => {
     try {
       const res = await fetch(API_URL, {

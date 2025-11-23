@@ -13,13 +13,23 @@ interface ClassModalProps {
 export const ClassModal: React.FC<ClassModalProps> = ({ 
   isOpen, onClose, onSubmit, initialData, isLoading 
 }) => {
-  const [formData, setFormData] = useState<ClassFormData>({ nama_kelas: '', deskripsi: '' });
+  // Initialize state with pengajar
+  const [formData, setFormData] = useState<ClassFormData>({ 
+    nama_kelas: '', 
+    pengajar: '', 
+    deskripsi: '' 
+  });
 
   useEffect(() => {
     if (isOpen && initialData) {
-      setFormData({ nama_kelas: initialData.nama_kelas, deskripsi: initialData.deskripsi || '' });
+      setFormData({ 
+        nama_kelas: initialData.nama_kelas, 
+        // Ensure we load existing pengajar data or empty string
+        pengajar: initialData.pengajar || '',
+        deskripsi: initialData.deskripsi || '' 
+      });
     } else {
-      setFormData({ nama_kelas: '', deskripsi: '' });
+      setFormData({ nama_kelas: '', pengajar: '', deskripsi: '' });
     }
   }, [isOpen, initialData]);
 
@@ -33,14 +43,25 @@ export const ClassModal: React.FC<ClassModalProps> = ({
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><X size={20}/></button>
         </div>
         <div className="p-6 space-y-4">
+          
+          {/* CLASS NAME INPUT */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Class Name <span className="text-red-500">*</span></label>
             <input type="text" value={formData.nama_kelas} onChange={e => setFormData({...formData, nama_kelas: e.target.value})} className="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900" placeholder="e.g. Desain Grafis" />
           </div>
+
+          {/* NEW: PENGAJAR INPUT */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Instructor (Pengajar) <span className="text-red-500">*</span></label>
+            <input type="text" value={formData.pengajar} onChange={e => setFormData({...formData, pengajar: e.target.value})} className="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900" placeholder="e.g. Mr. Budi" />
+          </div>
+
+          {/* DESCRIPTION INPUT */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
             <textarea value={formData.deskripsi} onChange={e => setFormData({...formData, deskripsi: e.target.value})} className="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900" rows={3} placeholder="Class description..." />
           </div>
+
         </div>
         <div className="px-6 py-4 bg-slate-50 flex justify-end gap-3">
           <button onClick={onClose} className="px-4 py-2 text-slate-600 hover:bg-slate-200 rounded-lg">Cancel</button>

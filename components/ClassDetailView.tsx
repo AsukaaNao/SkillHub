@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Trash2, Mail } from 'lucide-react';
+import { Users, Trash2, Mail, UserCircle } from 'lucide-react'; // Added UserCircle
 import { ClassDetail } from '../types';
 
 interface ClassDetailViewProps {
@@ -13,6 +13,13 @@ export const ClassDetailView: React.FC<ClassDetailViewProps> = ({ detail, onRemo
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
       <div className="p-8 bg-slate-50 border-b border-slate-200">
           <h2 className="text-2xl font-bold text-slate-900">{detail.nama_kelas}</h2>
+          
+          {/* NEW: Instructor Info */}
+          <div className="flex items-center gap-2 text-slate-700 mt-2 font-medium">
+            <UserCircle size={18} className="text-indigo-600"/>
+            <span>Instructor: {detail.pengajar || 'Not Assigned'}</span>
+          </div>
+
           <div className="mt-2 flex gap-4 text-sm">
               <span className="text-slate-600">{detail.deskripsi}</span>
           </div>
@@ -22,6 +29,7 @@ export const ClassDetailView: React.FC<ClassDetailViewProps> = ({ detail, onRemo
             <Users size={20}/> Enrolled Students ({detail.peserta.length})
           </h3>
           
+          {/* ... (Rest of the component remains the same) ... */}
           {detail.peserta.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {detail.peserta.map(p => (

@@ -8,9 +8,10 @@ export async function POST(request: Request) {
     for (const c of body) {
         const [exists] = await pool.query('SELECT id FROM classes WHERE nama_kelas = ?', [c.nama_kelas]);
         if ((exists as any[]).length === 0) {
+            // Include pengajar in bulk insert
             await pool.query(
-                'INSERT INTO classes (nama_kelas, deskripsi) VALUES (?, ?)',
-                [c.nama_kelas, c.deskripsi]
+                'INSERT INTO classes (nama_kelas, pengajar, deskripsi) VALUES (?, ?, ?)',
+                [c.nama_kelas, c.pengajar || '', c.deskripsi] // Use empty string fallback if pengajar missing in mock data
             );
         }
     }

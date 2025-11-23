@@ -44,6 +44,7 @@ CREATE TABLE classes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama_kelas VARCHAR(255) NOT NULL,
     deskripsi TEXT,
+    pengajar TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -52,7 +53,6 @@ CREATE TABLE enrollments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     peserta_id INT,
     kelas_id INT,
-    tanggal_pendaftaran TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (peserta_id) REFERENCES participants(id) ON DELETE CASCADE,
     FOREIGN KEY (kelas_id) REFERENCES classes(id) ON DELETE CASCADE
 );

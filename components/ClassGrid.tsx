@@ -1,5 +1,5 @@
 import React from 'react';
-import { Edit2, Trash2, ChevronRight, Users } from 'lucide-react'; // Added Users icon
+import { Edit2, Trash2, ChevronRight, Users, UserCircle } from 'lucide-react'; // Added UserCircle
 import { Kelas } from '../types';
 
 interface ClassGridProps {
@@ -22,6 +22,13 @@ export const ClassGrid: React.FC<ClassGridProps> = ({ classes, onEdit, onDelete,
           </div>
 
           <h3 className="font-bold text-lg text-slate-800 mb-1 pr-12">{c.nama_kelas}</h3>
+          
+          {/* NEW: Instructor Display */}
+          <div className="flex items-center gap-2 text-sm text-slate-600 mb-3">
+            <UserCircle size={16} className="text-indigo-500"/>
+            <span>{c.pengajar || 'Unknown Instructor'}</span>
+          </div>
+
           <p className="text-sm text-slate-500 mb-4 line-clamp-2 h-10 flex-1">{c.deskripsi || 'No description provided.'}</p>
           
           {/* Footer Section */}

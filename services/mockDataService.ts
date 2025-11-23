@@ -31,6 +31,8 @@ const CLASS_DESCRIPTIONS = [
   "Tingkatkan produktivitas Anda dengan teknik terbaru."
 ];
 
+const NAMA_PENGAJAR = ["Andi", "Budi", "Eko", "Joko", "Rina", "Siti", "Agus", "Dewi", "Ratna", "Yani"];
+
 const getRandom = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 export const generateDummyParticipants = (count: number): ParticipantFormData[] => {
@@ -62,7 +64,8 @@ export const generateDummyClasses = (count: number): ClassFormData[] => {
       uniqueNames.add(name);
       results.push({
         nama_kelas: name,
-        deskripsi: getRandom(CLASS_DESCRIPTIONS)
+        deskripsi: getRandom(CLASS_DESCRIPTIONS),
+        pengajar: getRandom(FIRST_NAMES)
       });
     }
   }

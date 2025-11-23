@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       // Only insert if not already enrolled
       if ((exists as any[]).length === 0) {
         await pool.query(
-          'INSERT INTO enrollments (peserta_id, kelas_id, tanggal_pendaftaran) VALUES (?, ?, NOW())',
+          'INSERT INTO enrollments (peserta_id, kelas_id) VALUES (?, ?)',
           [pesertaId, kelasId]
         );
       }
